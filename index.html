@@ -70,7 +70,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <table class="table">
+            <table class="table text-center">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -156,7 +156,7 @@
                 '   <th scope="row">' + (next_index) + '</th>' + 
                 '   <td>' + technique + '</td>' +
                 '   <td>' + (technique_is_max ? 'Yes' : 'Nos') + '</td>' +
-                '   <td>' + critical.toFixed(3) + ' %</td>' +
+                '   <td class="font-weight-bold">' + critical.toFixed(3) + ' %</td>' +
                 '</tr>'
             );
             table_elem.prepend(dom);
