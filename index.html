@@ -1,15 +1,169 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>GitHub Pages Sample</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marx/2.0.4/marx.css">
-</head>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<body>
-<main>
-  <h1>GitHub Pages</h1>
-</main>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style type="text/css">
+        .bg-custom {
+            background-color: rgb(255, 238, 240)!important;
+        }
+        .title-color {
+            color: #FA209F !important;
+        }
+    </style>
 
-</body>
+    <title>スクスタ計算機</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-custom">
+        <a class="navbar-brand title-color" href="javascript: return false;">スクスタ計算機</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="javascript: return false;" data-toggle="modal" data-target="#discModal">使い方・計算方法について</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <form>
+                <div class="form-group row">
+                    <label class="col-12 col-form-label">テクニックの値、他のステータとの大小関係からクリティカル発生率を計算します。</label>
+                </div>
+                <div class="form-group row">
+                  <label for="inputPassword" class="col-12 col-form-label">補正後テクニック: </label>
+                  <div class="col-8 mx-auto">
+                    <input type="number"" class="form-control" id="input_technique" value="0">
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-12 col-form-label">基本テクニックが基本アピール,基本スタミナに対して: </label>
+                    <div class="col-8 mx-auto">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="techniqueIsMax"" id="technique_is_max_t" value="true" checked="checked">
+                            <label class="form-check-label" for="inlineRadio1">最大である</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="techniqueIsMax" id="technique_is_max_f" value="false">
+                            <label class="form-check-label" for="inlineRadio2">最大ではない</label>
+                          </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-11">
+                        <button type="submit" class="btn btn-success float-right" id="start_calc">計算実行</button>
+                      </div>
+                </div>
+              </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">テクニック</th>
+                    <th scope="col">最大</th>
+                    <th scope="col">クリティカル発生率</th>
+                  </tr>
+                </thead>
+                <tbody id="result_tbody">
+
+                </tbody>
+              </table>
+          </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="discModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">使い方・計算方法について</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    この計算機は、おーくや氏(<a href="https://twitter.com/Octilleryo" target="_blank">@Octilleryo</a>)の算出した計算式を元にクリティカル発生率を計算しています。<br>
+                    参考: <a href="http://blog.livedoor.jp/sakurauchist_times/archives/22918650.html" target="_blank">クリティカル率に関する考察</a> (2020/04/21閲覧)<br>
+                </p>
+                <p> 
+                    <p class="font-weight-bold">用語解説</p>
+                    <p>
+                        <span class="font-weight-bold">・基本アピール / 基本スタミナ / 基本テクニック</span><br>
+                        メンバー詳細画面で確認可能であり、スキルやアクセサリの影響を全く受けていない数値。
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">・補正後テクニック</span><br>
+                        ライブ編成画面で確認が可能であり、編成メンバーのパッシブスキルやアクセサリによる補正を受けた数値。
+                        (ゲストのスキルによる補正は考慮されていません)
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">・補正後テクニック</span><br>
+                        ライブ編成画面で確認が可能であり、編成メンバーのパッシブスキルやアクセサリによる補正を受けた数値。
+                        (ゲストのスキルによる補正は考慮されていません)
+                    </p>
+                </p>
+                <p>
+                    <span class="font-weight-bold">サイトに関するご連絡・質問</span><br>
+                    れいん(<a href="https://twitter.com/RainServer" target="_blank">@RainServer</a>)まで。
+                </p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/JavaScript">
+    $(() => {
+        $('#start_calc').click(function(e){
+            e.preventDefault();
+            // 値を取得
+            var technique = parseInt($('#input_technique').val());
+            var technique_is_max = $('#technique_is_max_t').prop("checked");
+            // クリティカル値
+            // おーくや(@Octilleryo)氏の解析に依る
+            // http://blog.livedoor.jp/sakurauchist_times/archives/22918650.html
+            var critical = 0.00291 * technique + (technique_is_max ? 15 : 0);
+
+            // 結果を書き込み
+            var table_elem = $('#result_tbody');
+            var next_index = table_elem.children().length + 1;
+            var dom = $(
+                '<tr>' +
+                '   <th scope="row">' + (next_index) + '</th>' + 
+                '   <td>' + technique + '</td>' +
+                '   <td>' + (technique_is_max ? 'Yes' : 'Nos') + '</td>' +
+                '   <td>' + critical.toFixed(3) + ' %</td>' +
+                '</tr>'
+            );
+            table_elem.prepend(dom);
+            return false;
+        });
+    });
+    </script>
+
+  </body>
 </html>
